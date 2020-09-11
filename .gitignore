@@ -1,0 +1,13 @@
+*.swp
+*.swo
+##
+*.txt
+##
+*.jpg
+*.png
+*.jpeg
+##
+*.avi
+*.mp4
+##
+*.pyc
