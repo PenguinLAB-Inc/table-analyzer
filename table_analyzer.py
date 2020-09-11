@@ -24,6 +24,41 @@ class TableAnalyzer:
 
             return None
 
-    def set_ordinal_attributes(self, att):
+    def get_pearson_matrix(self, ordinal_atts):
+        """
+        * Get Pearson matrix
+        Args
+            nominal_atts : ordinal attributes 
+
+        Return
+            Pearson matrix
+        """
+        self.data = self.data[[i for i in data.columns if i not in ordinal_atts]]
+        return data.corr()
+
+    def get_cramer_v(self, nominal_atts):
+        """
+        * Get Cramer V matrix
+        * Reference : https://www.kaggle.com/chrisbss1/cramer-s-v-correlation-matrix
+        Args
+            nominal_atts : nominal attributes 
+
+        Return
+            Cramer matrix
+        """
+            
+        self.data = self.data[[i for i in data.columns if i not in nominal_atts]]
+        dummy = pd.get_dummies(self.data)
+        rows = []
+        for var1 in dummy:
+            cols = []
+            for var2 in dummy:
+                cramers = cramers_V(dummy[var1], dummy[var2])
+                cols.append(round(cramers,2))
+            rows.append(cols)
+
+        cramers_results = np.array(rows)
+        cdf = pd.DataFrame(cramers_results, columns=dummy.columns, index=dummy.columns)
+        return cdf
         
         
